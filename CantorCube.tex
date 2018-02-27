@@ -1,0 +1,59 @@
+%参考：https://tex.stackexchange.com/questions/383399/tikz-fractal-menger-sponge
+
+\documentclass{standalone}
+
+%package
+\usepackage{luatex85}
+\usepackage{tikz}
+
+%定义颜色
+\definecolor{boundarycolor}{cmyk}{1,0,0,0}%Cyan
+\definecolor{thirdcolor}{cmyk}{0.82,0.00,0.04,0.30}%LightSeaGreen
+\definecolor{fillcolor}{cmyk}{0.12,0,0,0}%LightCyan
+
+%定义\cantorcube命令
+\newcommand\cantorcube[1]{
+  \pgfmathsetmacro\level{int(#1 - 1)}
+  \ifnum \level = 0 \relax
+  \shadedraw[right color = thirdcolor,left color = thirdcolor!90,line width=0,draw = fillcolor]
+  	(1,1,1) -- (1,1,-1) -- (1,-1,-1) -- (1,-1,1) -- cycle; %右
+  \shadedraw[right color = boundarycolor,left color = boundarycolor!90 ,line width=0,draw = fillcolor]
+  	(1,1,1) -- (1,1,-1) -- (-1,1,-1) -- (-1,1,1) -- cycle; %上
+  \shadedraw[right color = boundarycolor!50, left color = fillcolor!90,line width=0,draw = fillcolor]
+  	(1,1,1) -- (1,-1,1) -- (-1,-1,1) -- (-1,1,1) -- cycle; %正
+  \else
+  \begin{scope}[scale=.3333333333]
+  	\begin{scope}[shift={(-2, -2, -2)}]
+  		\cantorcube{\level}
+  	\end{scope}
+  	\begin{scope}[shift={(2, -2, -2)}]
+  		\cantorcube{\level}
+  	\end{scope}
+  	\begin{scope}[shift={(-2, 2, -2)}]
+  		\cantorcube{\level}
+  	\end{scope}
+  	\begin{scope}[shift={(2, 2, -2)}]
+  		\cantorcube{\level}
+  	\end{scope}
+  	\begin{scope}[shift={(-2, -2, 2)}]
+  		\cantorcube{\level}
+  	\end{scope}
+  	\begin{scope}[shift={(2, -2, 2)}]
+  		\cantorcube{\level}
+  	\end{scope}
+  	\begin{scope}[shift={(-2, 2, 2)}] 
+  		\cantorcube{\level}
+  	\end{scope}
+  	\begin{scope}[shift={(2, 2, 2)}]
+  		\cantorcube{\level}
+  	\end{scope}
+\end{scope}
+\fi
+}
+
+\begin{document}
+	\begin{tikzpicture}
+		\cantorcube{2}
+	\end{tikzpicture}
+	
+\end{document}
