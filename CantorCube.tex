@@ -1,17 +1,15 @@
 %参考：https://tex.stackexchange.com/questions/383399/tikz-fractal-menger-sponge
 
-\documentclass[tikz]{standalone}
+\documentclass{standalone}
+
+%package
+\usepackage{luatex85}
+\usepackage{tikz}
 
 %定义颜色
 \definecolor{boundarycolor}{cmyk}{1,0,0,0}%Cyan
 \definecolor{thirdcolor}{cmyk}{0.82,0.00,0.04,0.30}%LightSeaGreen
 \definecolor{fillcolor}{cmyk}{0.12,0,0,0}%LightCyan
-
-%package
-\usepackage{luatex85}
-\usepackage{tikz}
-\usepackage{tikz-3dplot}
-\tdplotsetmaincoords{45}{45}
 
 %定义\cantorcube命令
 \newcommand\cantorcube[1]{
@@ -54,8 +52,9 @@
 }
 
 \begin{document}
+
 	\begin{tikzpicture}
-		\cantorcube{4}
+		\cantorcube{2}
 	\end{tikzpicture}
 	
 \end{document}

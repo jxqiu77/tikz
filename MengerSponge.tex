@@ -1,0 +1,93 @@
+%参考：https://tex.stackexchange.com/questions/383399/tikz-fractal-menger-sponge
+
+\documentclass{standalone}
+
+%package
+\usepackage{luatex85}
+\usepackage{tikz}
+
+%定义颜色
+\definecolor{boundarycolor}{cmyk}{1,0,0,0}%Cyan
+\definecolor{thirdcolor}{cmyk}{0.82,0.00,0.04,0.30}%LightSeaGreen
+\definecolor{fillcolor}{cmyk}{0.12,0,0,0}%LightCyan
+
+%定义\mengersponge命令
+\newcommand\mengersponge[1]{
+  \pgfmathsetmacro\level{int(#1 - 1)}
+  \ifnum \level = 0 \relax
+  \filldraw[thirdcolor,line width=0] (1, 1, 1) -- (1, 1, -1) -- (1, -1, -1) -- (1, -1, 1) -- cycle; %右
+  \filldraw[boundarycolor,line width=0] (1, 1, 1) -- (1, 1, -1) -- (-1, 1, -1) -- (-1, 1, 1) -- cycle; %上
+  \filldraw[boundarycolor!60,line width=0] (1, 1, 1) -- (1, -1, 1) -- (-1, -1, 1) -- (-1, 1, 1) -- cycle; %正
+  \else
+  \begin{scope}[scale=.3333333333]
+    \begin{scope}[shift={(-2, -2, -2)}]
+      \mengersponge{\level}
+    \end{scope}
+    \begin{scope}[shift={(0, -2, -2)}]
+      \mengersponge{\level}
+    \end{scope}
+    \begin{scope}[shift={(2, -2, -2)}]
+      \mengersponge{\level}
+    \end{scope}
+    \begin{scope}[shift={(-2, 0, -2)}]
+  	\mengersponge{\level}
+    \end{scope}
+	\begin{scope}[shift={(2, 0, -2)}]
+	\mengersponge{\level}
+	\end{scope}
+	\begin{scope}[shift={(-2, 2, -2)}]
+	\mengersponge{\level}
+	\end{scope}
+	\begin{scope}[shift={(0, 2, -2)}]
+	\mengersponge{\level}
+	\end{scope}
+	\begin{scope}[shift={(2, 2, -2)}]
+	\mengersponge{\level}
+	\end{scope}
+	\begin{scope}[shift={(-2, -2, 0)}]
+	\mengersponge{\level}
+	\end{scope}
+	\begin{scope}[shift={(2, -2, 0)}]
+		\mengersponge{\level}
+	\end{scope}
+	\begin{scope}[shift={(-2, 2, 0)}]
+		\mengersponge{\level}
+	\end{scope}
+	\begin{scope}[shift={(2, 2, 0)}]
+		\mengersponge{\level}
+	\end{scope}
+	\begin{scope}[shift={(-2, -2, 2)}]
+		\mengersponge{\level}
+	\end{scope}
+	\begin{scope}[shift={(0, -2, 2)}]
+		\mengersponge{\level}
+	\end{scope}
+	\begin{scope}[shift={(2, -2, 2)}]
+		\mengersponge{\level}
+	\end{scope}
+	\begin{scope}[shift={(-2, 0, 2)}]
+		\mengersponge{\level}
+	\end{scope}
+	\begin{scope}[shift={(2, 0, 2)}]
+		\mengersponge{\level}
+	\end{scope}
+	\begin{scope}[shift={(-2, 2, 2)}]
+		\mengersponge{\level}
+	\end{scope}
+	\begin{scope}[shift={(0, 2, 2)}]
+		\mengersponge{\level}
+	\end{scope}
+	\begin{scope}[shift={(2, 2, 2)}]
+		\mengersponge{\level}
+	\end{scope}
+  \end{scope}
+	\fi
+}
+
+\begin{document}
+	
+	\begin{tikzpicture}
+	\mengersponge{2}
+	\end{tikzpicture}
+
+\end{document}
